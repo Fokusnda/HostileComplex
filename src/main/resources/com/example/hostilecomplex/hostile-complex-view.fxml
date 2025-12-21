@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17.0.12"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.hostilecomplex.HostileComplexController">
+
+    <center>
+        <SplitPane dividerPositions="0.35">
+            <items>
+                <HBox spacing="5">
+                    <VBox spacing="10" style="-fx-padding: 10;" prefWidth="200">
+                        <children>
+
+                        </children>
+                    </VBox>
+                    <VBox spacing="10" style="-fx-padding: 10;" prefWidth="200">
+                        <children>
+                            <Button text="Гости" prefWidth="160" prefHeight="15" onAction="#onGuestClick"/>
+                            <Button text="Бронирования" prefWidth="160" prefHeight="15" onAction="#onBookingClick"/>
+                            <Button text="Бронирование доп. услуг" prefWidth="160" prefHeight="15" onAction="#onBookingAdditionalServicesClick"/>
+                            <Button text="Доп. услуги" prefWidth="160" prefHeight="15" onAction="#onAdditionalServicesClick"/>
+                            <Button text="Класс отеля" prefWidth="160" prefHeight="15" onAction="#onHotelClassClick"/>
+                            <Button text="Здание" prefWidth="160" prefHeight="15" onAction="#onBuildingClick"/>
+                            <Button text="Комната" prefWidth="160" prefHeight="15" onAction="#onRoomClick"/>
+                            <Button text="Тип комнаты" prefWidth="160" prefHeight="15" onAction="#onRoomTypeClick"/>
+                            <Button text="Бытовые услуги" prefWidth="160" prefHeight="15" onAction="#onHouseholdServicesClick"/>
+                        </children>
+                    </VBox>
+                </HBox>
+
+                <VBox spacing="5" >
+                    <children>
+                        <Label fx:id="tableTitle" text="Таблица" style="-fx-font-size: 32; -fx-font-weight: bold; -fx-padding: 10;"/>
+                        <TableView fx:id="tableView"/>
+                    </children>
+                </VBox>
+            </items>
+        </SplitPane>
+    </center>
+</BorderPane>
