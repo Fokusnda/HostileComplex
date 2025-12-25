@@ -18,15 +18,17 @@
                     </VBox>
                     <VBox spacing="10" style="-fx-padding: 10;" prefWidth="200">
                         <children>
-                            <Button text="Гости" prefWidth="160" prefHeight="15" onAction="#onGuestClick"/>
-                            <Button text="Бронирования" prefWidth="160" prefHeight="15" onAction="#onBookingClick"/>
-                            <Button text="Бронирование доп. услуг" prefWidth="160" prefHeight="15" onAction="#onBookingAdditionalServicesClick"/>
-                            <Button text="Доп. услуги" prefWidth="160" prefHeight="15" onAction="#onAdditionalServicesClick"/>
-                            <Button text="Класс отеля" prefWidth="160" prefHeight="15" onAction="#onHotelClassClick"/>
-                            <Button text="Здание" prefWidth="160" prefHeight="15" onAction="#onBuildingClick"/>
-                            <Button text="Комната" prefWidth="160" prefHeight="15" onAction="#onRoomClick"/>
-                            <Button text="Тип комнаты" prefWidth="160" prefHeight="15" onAction="#onRoomTypeClick"/>
-                            <Button text="Бытовые услуги" prefWidth="160" prefHeight="15" onAction="#onHouseholdServicesClick"/>
+                            <Button text="Клиенты" prefWidth="160" onAction="#onClientClick"/>
+                            <Button text="Организации" prefWidth="160" onAction="#onOrganizationClick"/>
+                            <Button text="Контракты" prefWidth="160" onAction="#onContractClick"/>
+                            <Button text="Бронирования" prefWidth="160" onAction="#onBookingClick"/>
+                            <Button text="Бронь-Клиенты" prefWidth="160" onAction="#onBookingClientClick"/>
+                            <Button text="Здания" prefWidth="160" onAction="#onBuildingClick"/>
+                            <Button text="Этажи" prefWidth="160" onAction="#onFloorClick"/>
+                            <Button text="Комнаты" prefWidth="160" onAction="#onRoomClick"/>
+                            <Button text="Занятые комнаты" prefWidth="160" onAction="#onStayClick"/>
+                            <Button text="Услуги в комнатах" prefWidth="160" onAction="#onStayServiceClick"/>
+                            <Button text="Доп. услуги" prefWidth="160" onAction="#onServiceClick"/>
                         </children>
                     </VBox>
                 </HBox>
