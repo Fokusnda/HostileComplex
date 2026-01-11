@@ -14,4 +14,7 @@ public class OrganizationDB {
     public int getIdOrganization()      {return idOrganization; }
     public String getName()             { return name; }
     public int getDiscountRate()        { return discountRate; }
+
+    @Override
+    public String toString() { return String.valueOf(name); }
 }

@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public class BookingDB {
     private final int           idBooking;
-    private final int           idContract;
+    private final String        orgName;
     private final String        hotelClass;
     private final int           floorNumber;
     private final int           roomsCount;
@@ -12,9 +12,10 @@ public class BookingDB {
     private final LocalDate     bookingDate;
     private final LocalDate     arrivalDate;
 
-    public BookingDB (int idBooking, String hotelClass, int floorNumber, int roomsCount, int peopleCount, LocalDate bookingDate, LocalDate arrivalDate, int idContract) {
+    public BookingDB (int idBooking, String hotelClass, int floorNumber, int roomsCount,
+                      int peopleCount, LocalDate bookingDate, LocalDate arrivalDate, String orgName) {
         this.idBooking = idBooking;
-        this.idContract = idContract;
+        this.orgName = orgName;
         this.hotelClass = hotelClass;
         this.floorNumber = floorNumber;
         this.roomsCount = roomsCount;
@@ -24,7 +25,7 @@ public class BookingDB {
     }
 
     public int getIdBooking()           { return idBooking; }
-    public int getIdContract()          { return idContract; }
+    public String getOrgName()          { return orgName; }
     public String getHotelClass()       { return hotelClass; }
     public int getFloorNumber()         { return floorNumber; }
     public int getRoomsCount()          { return roomsCount; }

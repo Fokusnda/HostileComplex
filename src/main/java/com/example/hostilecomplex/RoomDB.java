@@ -4,14 +4,16 @@ import java.math.BigDecimal;
 
 public class RoomDB {
     private final int           idRoom;
+    private final int           building;
     private final int           floor;
     private final int           room;
     private final String        roomType;
     private final BigDecimal    price;
     private final boolean       isBusy;
 
-    public RoomDB(int idRoom, int floor, int room, String roomType, BigDecimal price, boolean isBusy) {
+    public RoomDB(int idRoom, int building, int floor, int room, String roomType, BigDecimal price, boolean isBusy) {
         this.idRoom = idRoom;
+        this.building = building;
         this.floor = floor;
         this.room = room;
         this.roomType = roomType;
@@ -20,9 +22,12 @@ public class RoomDB {
     }
 
     public int getIdRoom()          { return idRoom; }
+    public int getBuilding()        { return building; }
     public int getFloor()           { return floor; }
     public int getRoom()            { return room; }
     public String getRoomType()     { return roomType; }
     public BigDecimal getPrice()    { return price; }
     public boolean getIsBusy()      { return isBusy; }
+
+    public String toString() { return String.valueOf(room); }
 }

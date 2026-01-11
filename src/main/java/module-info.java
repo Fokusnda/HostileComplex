@@ -12,6 +12,7 @@ module com.example.hostilecomplex {
     requires com.almasb.fxgl.all;
     requires java.sql;
     requires java.desktop;
+    requires com.fasterxml.jackson.annotation;
 
     opens com.example.hostilecomplex to javafx.fxml;
     exports com.example.hostilecomplex;

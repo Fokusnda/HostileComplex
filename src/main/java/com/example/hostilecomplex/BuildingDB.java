@@ -26,6 +26,19 @@ public class BuildingDB {
         this.hasEntertainment = hasEntertainment;
     }
 
+    public BuildingDB(int idBuilding) {
+        this.idBuilding = idBuilding;
+        this.hotelClass = "";
+        this.floorsCount = 0;
+        this.totalRooms = 0;
+        this.roomsPerFloor = 0;
+        this.hasCleaning = false;
+        this.hasLaundry = false;
+        this.hasDryCleaning = false;
+        this.hasFood = false;
+        this.hasEntertainment = false;
+    }
+
     public int getIdBuilding()              { return idBuilding; }
     public String getHotelClass()           { return hotelClass; }
     public int getFloorsCount()             { return floorsCount; }
@@ -36,4 +49,7 @@ public class BuildingDB {
     public boolean getHasDryCleaning()      { return hasDryCleaning; }
     public boolean getHasFood()             { return hasFood; }
     public boolean getHasEntertainment()    { return hasEntertainment; }
+
+    @Override
+    public String toString() { return String.valueOf(idBuilding); }
 }

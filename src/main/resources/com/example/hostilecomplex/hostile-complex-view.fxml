@@ -36,7 +36,26 @@
                 <VBox spacing="5" >
                     <children>
                         <Label fx:id="tableTitle" text="Таблица" style="-fx-font-size: 32; -fx-font-weight: bold; -fx-padding: 10;"/>
+                        <HBox spacing="10">
+                            <ComboBox fx:id="combo1" visible="false" />
+                            <ComboBox fx:id="combo2" visible="false" />
+                            <DatePicker fx:id="dateFrom" visible="false"/>
+                            <DatePicker fx:id="dateTo" visible="false"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Button text="Очистить" fx:id="clearFilterBtn" onAction="#onClearClick" visible="false"/>
+                        </HBox>
                         <TableView fx:id="tableView"/>
+                        <HBox spacing="10">
+                            <Button text="Сводобные комнаты" fx:id="freeRoomsBtn" onAction="#onFreeRoomsClick" visible="false"/>
+                            <Button text="Все комнаты" fx:id="allRoomsBtn" onAction="#onAllRoomsClick" visible="false"/>
+                            <Button text="Сведения" fx:id="roomInfoBtn" onAction="#onRoomInfoClick" visible="false"/>
+                        </HBox>
+                        <Region VBox.vgrow="ALWAYS"/>
+                        <HBox spacing="10">
+                            <Button text="Добавить" onAction="#onAddClick"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Button text="Удалить" onAction="#onDeleteClick"/>
+                        </HBox>
                     </children>
                 </VBox>
             </items>
