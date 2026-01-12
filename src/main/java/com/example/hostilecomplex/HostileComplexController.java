@@ -5,8 +5,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import javax.swing.*;
 import java.math.BigDecimal;
@@ -22,65 +27,50 @@ public class HostileComplexController {
         CONTRACT, FLOOR, ORGANIZATION, ROOM,
         SERVICE, STAY, STAY_SERVICE;
     }
-
     private ActiveTable activeTable;
 
 
 
-    @FXML
-    private Label tableTitle;
-    @FXML
-    private TableView<Object> tableView;
-    @FXML
-    private ComboBox<Object> combo1;
-    @FXML
-    private ComboBox<Object> combo2;
-    @FXML
-    private DatePicker dateFrom;
-    @FXML
-    private DatePicker dateTo;
-    @FXML
-    private Button freeRoomsBtn;
-    @FXML
-    private Button allRoomsBtn;
-    @FXML
-    private Button clearFilterBtn;
-    @FXML
-    private Button roomInfoBtn;
+    @FXML private Label             tableTitle;
+    @FXML private TableView<Object> tableView;
+    @FXML private ComboBox<Object>  combo1;
+    @FXML private ComboBox<Object>  combo2;
+    @FXML private DatePicker        dateFrom;
+    @FXML private DatePicker        dateTo;
+    @FXML private Button            freeRoomsBtn;
+    @FXML private Button            allRoomsBtn;
+    @FXML private Button            clearFilterBtn;
+    @FXML private Button            roomInfoBtn;
 
 
 
     private void resetTable() {
+        tableView.setRowFactory(null);
+        tableView.setOnMouseClicked(null);
+        tableView.getItems().clear();
+        tableView.getColumns().clear();
+        tableView.refresh();
+        tableView.getSelectionModel().clearSelection();
+
+        roomInfoBtn.setVisible(false);
+        clearFilterBtn.setVisible(false);
+        freeRoomsBtn.setVisible(false);
+        allRoomsBtn.setVisible(false);
         combo1.setVisible(false);
         combo2.setVisible(false);
-
-        combo1.setValue(null);
-        combo2.setValue(null);
-
-        combo1.getItems().clear();
-        combo2.getItems().clear();
-
-        combo1.setOnAction(null);
-        combo2.setOnAction(null);
-
-        combo1.setPromptText("");
-        combo2.setPromptText("");
-
-        tableView.getColumns().clear();
-        tableView.setItems(FXCollections.observableArrayList());
-
         dateFrom.setVisible(false);
         dateTo.setVisible(false);
 
+        combo1.setValue(null);
+        combo2.setValue(null);
+        combo1.getItems().clear();
+        combo2.getItems().clear();
+        combo1.setOnAction(null);
+        combo2.setOnAction(null);
+        combo1.setPromptText("");
+        combo2.setPromptText("");
         dateFrom.setValue(null);
         dateTo.setValue(null);
-
-        freeRoomsBtn.setVisible(false);
-        allRoomsBtn.setVisible(false);
-
-        clearFilterBtn.setVisible(false);
-
-        roomInfoBtn.setVisible(false);
     }
 
 
@@ -275,9 +265,6 @@ public class HostileComplexController {
 
         tableView.setItems(FXCollections.observableArrayList(bookings));
     }
-
-
-
 
     private void loadClientsTable() {
         ObservableList<ClientDB> clients = FXCollections.observableArrayList();
@@ -707,15 +694,14 @@ public class HostileComplexController {
 
 
 
-    @FXML
-    public void onClientClick(ActionEvent actionEvent) {
+    @FXML public void onClientClick(ActionEvent actionEvent) {
         activeTable = ActiveTable.CLIENT;
         resetTable();
         tableTitle.setText("Клиенты");
 
         TableColumn<Object, Integer> idClientColumn = new TableColumn<>("Номер клиента");
         idClientColumn.setCellValueFactory(new PropertyValueFactory<>("idClient"));
-        idClientColumn.setPrefWidth(50);
+        idClientColumn.setPrefWidth(200);
 
         TableColumn<Object, String> surnameColumn = new TableColumn<>("Фамилия");
         surnameColumn.setCellValueFactory(new PropertyValueFactory<>("surname"));
@@ -748,8 +734,7 @@ public class HostileComplexController {
 
         loadClientsTable();
     }
-    @FXML
-    public void onOrganizationClick(ActionEvent actionEvent) {
+    @FXML public void onOrganizationClick(ActionEvent actionEvent) {
         activeTable = ActiveTable.ORGANIZATION;
         resetTable();
         tableTitle.setText("Организации");
@@ -760,14 +745,13 @@ public class HostileComplexController {
 
         TableColumn<Object, Integer> discountRateColumn = new TableColumn<>("Скидка");
         discountRateColumn.setCellValueFactory(new PropertyValueFactory<>("discountRate"));
-        discountRateColumn.setPrefWidth(100);
+        discountRateColumn.setPrefWidth(200);
 
         tableView.getColumns().setAll(nameColumn, discountRateColumn);
 
         loadOrganizationTable();
     }
-    @FXML
-    public void onContractClick(ActionEvent actionEvent) {
+    @FXML public void onContractClick(ActionEvent actionEvent) {
         activeTable = ActiveTable.CONTRACT;
         resetTable();
         tableTitle.setText("Контракты");
@@ -793,24 +777,22 @@ public class HostileComplexController {
 
         TableColumn<Object, LocalDate> startDateColumn = new TableColumn<>("Дата подписания");
         startDateColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));
-        startDateColumn.setPrefWidth(100);
+        startDateColumn.setPrefWidth(200);
 
         TableColumn<Object, LocalDate> endDateColumn = new TableColumn<>("Дата окончания");
         endDateColumn.setCellValueFactory(new PropertyValueFactory<>("endDate"));
-        endDateColumn.setPrefWidth(100);
+        endDateColumn.setPrefWidth(200);
 
         tableView.getColumns().setAll(idOrganizationColumn, startDateColumn, endDateColumn);
 
         loadContractTable();
     }
-    @FXML
-    public void onBookingClick(ActionEvent actionEvent) {
+    @FXML public void onBookingClick(ActionEvent actionEvent) {
         activeTable = ActiveTable.BOOKING;
         resetTable();
         tableTitle.setText("Бронирования");
 
         clearFilterBtn.setVisible(true);
-
         combo1.setVisible(true);
         dateFrom.setVisible(true);
         dateTo.setVisible(true);
@@ -825,50 +807,49 @@ public class HostileComplexController {
 
         TableColumn<Object, Integer> idContractColumn = new TableColumn<>("Организация");
         idContractColumn.setCellValueFactory(new PropertyValueFactory<>("orgName"));
-        idContractColumn.setPrefWidth(100);
+        idContractColumn.setPrefWidth(150);
 
         TableColumn<Object, String> hotelClassColumn = new TableColumn<>("Класс отеля");
         hotelClassColumn.setCellValueFactory(new PropertyValueFactory<>("hotelClass"));
-        hotelClassColumn.setPrefWidth(200);
+        hotelClassColumn.setPrefWidth(150);
 
         TableColumn<Object, Integer> floorNumberColumn = new TableColumn<>("Номер этажа");
         floorNumberColumn.setCellValueFactory(new PropertyValueFactory<>("floorNumber"));
-        floorNumberColumn.setPrefWidth(100);
+        floorNumberColumn.setPrefWidth(150);
 
         TableColumn<Object, Integer> roomsCountColumn = new TableColumn<>("Количество комнат");
         roomsCountColumn.setCellValueFactory(new PropertyValueFactory<>("roomsCount"));
-        roomsCountColumn.setPrefWidth(100);
+        roomsCountColumn.setPrefWidth(150);
 
         TableColumn<Object, Integer> peopleCountColumn = new TableColumn<>("Количество людей");
         peopleCountColumn.setCellValueFactory(new PropertyValueFactory<>("peopleCount"));
-        peopleCountColumn.setPrefWidth(50);
+        peopleCountColumn.setPrefWidth(150);
 
         TableColumn<Object, LocalDate> bookingDateColumn = new TableColumn<>("Дата бронирования");
         bookingDateColumn.setCellValueFactory(new PropertyValueFactory<>("bookingDate"));
-        bookingDateColumn.setPrefWidth(200);
+        bookingDateColumn.setPrefWidth(150);
 
         TableColumn<Object, LocalDate> arrivalDateColumn = new TableColumn<>("Дата заселения");
         arrivalDateColumn.setCellValueFactory(new PropertyValueFactory<>("arrivalDate"));
-        arrivalDateColumn.setPrefWidth(100);
+        arrivalDateColumn.setPrefWidth(150);
 
         tableView.getColumns().setAll(idContractColumn, hotelClassColumn, floorNumberColumn,
                 roomsCountColumn, peopleCountColumn, bookingDateColumn, arrivalDateColumn);
 
         loadBookingTable();
     }
-    @FXML
-    public void onBookingClientClick(ActionEvent actionEvent) {
+    @FXML public void onBookingClientClick(ActionEvent actionEvent) {
         activeTable = ActiveTable.BOOKING_CLIENT;
         resetTable();
         tableTitle.setText("Бронь-клиенты");
 
         TableColumn<Object, Integer> idBookingClientColumn = new TableColumn<>("Номер бронь-клиента");
         idBookingClientColumn.setCellValueFactory(new PropertyValueFactory<>("idBookingClient"));
-        idBookingClientColumn.setPrefWidth(50);
+        idBookingClientColumn.setPrefWidth(200);
 
         TableColumn<Object, Integer> idBookingColumn = new TableColumn<>("Номер бронирования");
         idBookingColumn.setCellValueFactory(new PropertyValueFactory<>("idBooking"));
-        idBookingColumn.setPrefWidth(100);
+        idBookingColumn.setPrefWidth(200);
 
         TableColumn<Object, String> idClientColumn = new TableColumn<>("Фамилия клиента");
         idClientColumn.setCellValueFactory(new PropertyValueFactory<>("clientSurname"));
@@ -878,15 +859,14 @@ public class HostileComplexController {
 
         loadBookingClientTable();
     }
-    @FXML
-    public void onBuildingClick(ActionEvent actionEvent) {
+    @FXML public void onBuildingClick(ActionEvent actionEvent) {
         activeTable = ActiveTable.BUILDING;
         resetTable();
         tableTitle.setText("Здания");
 
         TableColumn<Object, Integer> idBuildingColumn = new TableColumn<>("Номер здания");
         idBuildingColumn.setCellValueFactory(new PropertyValueFactory<>("idBuilding"));
-        idBuildingColumn.setPrefWidth(50);
+        idBuildingColumn.setPrefWidth(100);
 
         TableColumn<Object, String> hotelClassColumn = new TableColumn<>("Класс отеля");
         hotelClassColumn.setCellValueFactory(new PropertyValueFactory<>("hotelClass"));
@@ -894,7 +874,7 @@ public class HostileComplexController {
 
         TableColumn<Object, Integer> floorsCountColumn = new TableColumn<>("Количество этажей");
         floorsCountColumn.setCellValueFactory(new PropertyValueFactory<>("floorsCount"));
-        floorsCountColumn.setPrefWidth(50);
+        floorsCountColumn.setPrefWidth(100);
 
         TableColumn<Object, Integer> totalRoomsColumn = new TableColumn<>("Всего комнат");
         totalRoomsColumn.setCellValueFactory(new PropertyValueFactory<>("totalRooms"));
@@ -902,7 +882,7 @@ public class HostileComplexController {
 
         TableColumn<Object, Integer> roomsPerFloorColumn = new TableColumn<>("Комнат на этаже");
         roomsPerFloorColumn.setCellValueFactory(new PropertyValueFactory<>("roomsPerFloor"));
-        roomsPerFloorColumn.setPrefWidth(50);
+        roomsPerFloorColumn.setPrefWidth(100);
 
         TableColumn<Object, Boolean> hasCleaningColumn = new TableColumn<>("Уборка");
         hasCleaningColumn.setCellValueFactory(new PropertyValueFactory<>("hasCleaning"));
@@ -910,7 +890,7 @@ public class HostileComplexController {
 
         TableColumn<Object, Boolean> hasLaundryColumn = new TableColumn<>("Прачечная");
         hasLaundryColumn.setCellValueFactory(new PropertyValueFactory<>("hasLaundry"));
-        hasLaundryColumn.setPrefWidth(50);
+        hasLaundryColumn.setPrefWidth(100);
 
         TableColumn<Object, Boolean> hasDryCleaningColumn = new TableColumn<>("Химчистка");
         hasDryCleaningColumn.setCellValueFactory(new PropertyValueFactory<>("hasDryCleaning"));
@@ -918,7 +898,7 @@ public class HostileComplexController {
 
         TableColumn<Object, Boolean> hasFoodClientColumn = new TableColumn<>("Ресторан");
         hasFoodClientColumn.setCellValueFactory(new PropertyValueFactory<>("hasFood"));
-        hasFoodClientColumn.setPrefWidth(50);
+        hasFoodClientColumn.setPrefWidth(100);
 
         TableColumn<Object, Boolean> hasEntertainmentColumn = new TableColumn<>("Развлечения");
         hasEntertainmentColumn.setCellValueFactory(new PropertyValueFactory<>("hasEntertainment"));
@@ -930,14 +910,12 @@ public class HostileComplexController {
 
         loadBuildingTable();
     }
-    @FXML
-    public void onFloorClick(ActionEvent actionEvent) {
+    @FXML public void onFloorClick(ActionEvent actionEvent) {
         activeTable = ActiveTable.FLOOR;
         resetTable();
         tableTitle.setText("Этажи");
 
         clearFilterBtn.setVisible(true);
-
         combo1.setVisible(true);
         combo2.setVisible(false);
 
@@ -965,25 +943,22 @@ public class HostileComplexController {
 
         TableColumn<Object, Integer> idBuildingColumn = new TableColumn<>("Номер здания");
         idBuildingColumn.setCellValueFactory(new PropertyValueFactory<>("idBuilding"));
-        idBuildingColumn.setPrefWidth(100);
+        idBuildingColumn.setPrefWidth(200);
 
         TableColumn<Object, Integer> floorNumberColumn = new TableColumn<>("Номер этажа");
         floorNumberColumn.setCellValueFactory(new PropertyValueFactory<>("floorNumber"));
-        floorNumberColumn.setPrefWidth(100);
+        floorNumberColumn.setPrefWidth(200);
 
         tableView.getColumns().setAll(idBuildingColumn, floorNumberColumn);
     }
-    @FXML
-    public void onRoomClick(ActionEvent actionEvent) {
+    @FXML public void onRoomClick(ActionEvent actionEvent) {
         activeTable = ActiveTable.ROOM;
         resetTable();
         tableTitle.setText("Комнаты");
 
         clearFilterBtn.setVisible(true);
-
         freeRoomsBtn.setVisible(true);
         allRoomsBtn.setVisible(true);
-
         combo1.setVisible(true);
         combo2.setVisible(true);
 
@@ -1027,19 +1002,19 @@ public class HostileComplexController {
 
         TableColumn<Object, Integer> roomColumn = new TableColumn<>("Номер комнаты");
         roomColumn.setCellValueFactory(new PropertyValueFactory<>("room"));
-        roomColumn.setPrefWidth(100);
+        roomColumn.setPrefWidth(200);
 
         TableColumn<Object, String> roomTypeColumn = new TableColumn<>("Тип комнаты");
         roomTypeColumn.setCellValueFactory(new PropertyValueFactory<>("roomType"));
-        roomTypeColumn.setPrefWidth(100);
+        roomTypeColumn.setPrefWidth(200);
 
         TableColumn<Object, BigDecimal> priceColumn = new TableColumn<>("Цена");
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
-        priceColumn.setPrefWidth(100);
+        priceColumn.setPrefWidth(200);
 
         TableColumn<Object, Boolean> isBusyColumn = new TableColumn<>("Занят");
         isBusyColumn.setCellValueFactory(new PropertyValueFactory<>("isBusy"));
-        isBusyColumn.setPrefWidth(100);
+        isBusyColumn.setPrefWidth(200);
 
         tableView.getColumns().setAll(buildingColumn, floorColumn, roomColumn, roomTypeColumn, priceColumn, isBusyColumn);
 
@@ -1047,7 +1022,6 @@ public class HostileComplexController {
             TableRow<Object> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 1 && !row.isEmpty()) {
-                    RoomDB room = (RoomDB) row.getItem();
                     roomInfoBtn.setVisible(true);
                 }
                 if (event.getClickCount() == 2 && !row.isEmpty()) {
@@ -1058,17 +1032,14 @@ public class HostileComplexController {
             return row;
         });
     }
-    @FXML
-    public void onStayClick(ActionEvent actionEvent) {
+    @FXML public void onStayClick(ActionEvent actionEvent) {
         activeTable = ActiveTable.STAY;
         resetTable();
         tableTitle.setText("Занятые комнаты");
 
         clearFilterBtn.setVisible(true);
-
         combo1.setVisible(true);
         combo2.setVisible(true);
-
         dateFrom.setVisible(true);
         dateTo.setVisible(true);
 
@@ -1107,38 +1078,47 @@ public class HostileComplexController {
 
         TableColumn<Object, String> buildingColumn = new TableColumn<>("Номер здания");
         buildingColumn.setCellValueFactory(new PropertyValueFactory<>("building"));
-        buildingColumn.setPrefWidth(100);
+        buildingColumn.setPrefWidth(200);
 
         TableColumn<Object, String> floorNumberColumn = new TableColumn<>("Этаж");
         floorNumberColumn.setCellValueFactory(new PropertyValueFactory<>("floorNumber"));
-        floorNumberColumn.setPrefWidth(100);
+        floorNumberColumn.setPrefWidth(200);
 
         TableColumn<Object, String> clientSurnameColumn = new TableColumn<>("Фамилия клиента");
         clientSurnameColumn.setCellValueFactory(new PropertyValueFactory<>("clientSurname"));
-        clientSurnameColumn.setPrefWidth(100);
+        clientSurnameColumn.setPrefWidth(200);
 
         TableColumn<Object, Integer> numberRoomColumn = new TableColumn<>("Номер комнаты");
         numberRoomColumn.setCellValueFactory(new PropertyValueFactory<>("numberRoom"));
-        numberRoomColumn.setPrefWidth(100);
+        numberRoomColumn.setPrefWidth(200);
 
         TableColumn<Object, LocalDate> checkInColumn = new TableColumn<>("Дата заселения");
         checkInColumn.setCellValueFactory(new PropertyValueFactory<>("checkIn"));
-        checkInColumn.setPrefWidth(100);
+        checkInColumn.setPrefWidth(200);
 
         TableColumn<Object, LocalDate> checkOutColumn = new TableColumn<>("Дата выселения");
         checkOutColumn.setCellValueFactory(new PropertyValueFactory<>("checkOut"));
-        checkOutColumn.setPrefWidth(100);
+        checkOutColumn.setPrefWidth(200);
 
         tableView.getColumns().setAll(buildingColumn, floorNumberColumn, clientSurnameColumn, numberRoomColumn, checkInColumn, checkOutColumn);
+
+        tableView.setRowFactory(tv -> {
+            TableRow<Object> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && !row.isEmpty()) {
+                    StayDB stay = (StayDB) row.getItem();
+                    showStayService(stay);
+                }
+            });
+            return row;
+        });
     }
-    @FXML
-    public void onStayServiceClick(ActionEvent actionEvent) {
+    @FXML public void onStayServiceClick(ActionEvent actionEvent) {
         activeTable = ActiveTable.STAY_SERVICE;
         resetTable();
         tableTitle.setText("Услуги в комнатах");
 
         clearFilterBtn.setVisible(true);
-
         combo1.setVisible(true);
         combo2.setVisible(true);
 
@@ -1174,49 +1154,45 @@ public class HostileComplexController {
 
         TableColumn<Object, Integer> buildingColumn = new TableColumn<>("Номер здания");
         buildingColumn.setCellValueFactory(new PropertyValueFactory<>("building"));
-        buildingColumn.setPrefWidth(100);
+        buildingColumn.setPrefWidth(200);
 
         TableColumn<Object, Integer> idStayColumn = new TableColumn<>("Номер занятой комнаты");
         idStayColumn.setCellValueFactory(new PropertyValueFactory<>("idStay"));
-        idStayColumn.setPrefWidth(100);
+        idStayColumn.setPrefWidth(200);
 
         TableColumn<Object, String> nameServiceColumn = new TableColumn<>("Название услуги");
         nameServiceColumn.setCellValueFactory(new PropertyValueFactory<>("nameService"));
-        nameServiceColumn.setPrefWidth(100);
+        nameServiceColumn.setPrefWidth(200);
 
         TableColumn<Object, Integer> quantityColumn = new TableColumn<>("Количество");
         quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-        quantityColumn.setPrefWidth(100);
+        quantityColumn.setPrefWidth(200);
 
         TableColumn<Object, BigDecimal> totalPriceColumn = new TableColumn<>("Итоговая стоимость");
         totalPriceColumn.setCellValueFactory(new PropertyValueFactory<>("totalPrice"));
-        totalPriceColumn.setPrefWidth(100);
+        totalPriceColumn.setPrefWidth(200);
 
         tableView.getColumns().setAll(buildingColumn, idStayColumn, nameServiceColumn, quantityColumn, totalPriceColumn);
     }
-    @FXML
-    public void onServiceClick(ActionEvent actionEvent) {
+    @FXML public void onServiceClick(ActionEvent actionEvent) {
         activeTable = ActiveTable.SERVICE;
         resetTable();
         tableTitle.setText("Услуги");
 
         TableColumn<Object, String> nameColumn = new TableColumn<>("Название");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        nameColumn.setPrefWidth(100);
+        nameColumn.setPrefWidth(200);
 
         TableColumn<Object, BigDecimal> priceColumn = new TableColumn<>("Стоимость");
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
-        priceColumn.setPrefWidth(100);
+        priceColumn.setPrefWidth(200);
 
         tableView.getColumns().setAll(nameColumn, priceColumn);
 
         loadServiceTable();
     }
 
-
-
-    @FXML
-    public void onFreeRoomsClick(ActionEvent actionEvent) {
+    @FXML public void onFreeRoomsClick(ActionEvent actionEvent) {
         ObservableList<Object> allRooms = tableView.getItems();
         ObservableList<Object> freeRooms = FXCollections.observableArrayList();
 
@@ -1228,12 +1204,10 @@ public class HostileComplexController {
 
         tableView.setItems(freeRooms);
     }
-    @FXML
-    public void onAllRoomsClick(ActionEvent actionEvent) {
+    @FXML public void onAllRoomsClick(ActionEvent actionEvent) {
         onRoomClick(actionEvent);
     }
-    @FXML
-    public void onRoomInfoClick(ActionEvent actionEvent) {
+    @FXML public void onRoomInfoClick(ActionEvent actionEvent) {
         RoomDB selectedRoom = (RoomDB) tableView.getSelectionModel().getSelectedItem();
         if (selectedRoom == null) {
             new Alert(Alert.AlertType.WARNING, "Сначала выберите комнату!").showAndWait();
@@ -1275,6 +1249,131 @@ public class HostileComplexController {
         }
         new Alert(Alert.AlertType.INFORMATION, info.toString()).showAndWait();
     }
+    @FXML public void onClearClick(ActionEvent actionEvent) {
+        switch (activeTable) {
+            case CLIENT -> onClientClick(actionEvent);
+            case ORGANIZATION -> onOrganizationClick(actionEvent);
+            case CONTRACT -> onContractClick(actionEvent);
+            case BOOKING -> onBookingClick(actionEvent);
+            case BOOKING_CLIENT -> onBookingClientClick(actionEvent);
+            case BUILDING -> onBuildingClick(actionEvent);
+            case FLOOR -> onFloorClick(actionEvent);
+            case ROOM -> onRoomClick(actionEvent);
+            case STAY -> onStayClick(actionEvent);
+            case STAY_SERVICE -> onStayServiceClick(actionEvent);
+            case SERVICE -> onServiceClick(actionEvent);
+        }
+    }
+    @FXML public void onAddClick(ActionEvent actionEvent) {
+        switch (activeTable) {
+            case CLIENT -> addClient();
+            case ORGANIZATION -> addOrganization();
+            case CONTRACT -> addContract();
+            case BOOKING -> addBooking();
+            case BOOKING_CLIENT -> addBookingClient();
+            case BUILDING -> addBuilding();
+            case FLOOR -> addFloor();
+            case ROOM -> addRoom();
+            case STAY -> addStay();
+            case STAY_SERVICE -> addStayService();
+            case SERVICE -> addService();
+        }
+    }
+    @FXML public void onDeleteClick(ActionEvent actionEvent) {
+        switch (activeTable) {
+            case CLIENT -> deleteClient();
+            case ORGANIZATION -> deleteOrganization();
+            case CONTRACT -> deleteContract();
+            case BOOKING -> deleteBooking();
+            case BOOKING_CLIENT -> deleteBookingClient();
+            case BUILDING -> deleteBuilding();
+            case FLOOR -> deleteFloor();
+            case ROOM -> deleteRoom();
+            case STAY -> deleteStay();
+            case STAY_SERVICE -> deleteStayService();
+            case SERVICE -> deleteService();
+        }
+    }
+    @FXML private void onVisitsClick(ActionEvent actionEvent) {
+        int totalRooms = 0;
+        int busyRooms = 0;
+
+        try (Connection conn = DBConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery("select count(*) as total from \"Room\"")) {
+            if (rs.next()) {
+                totalRooms = rs.getInt("total");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try (Connection conn = DBConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery("select count(distinct \"Id_room\") as busy " +
+                     "from \"Stay\" " +
+                     "where current_date between \"Check_in\" and \"Check_out\"")) {
+            if (rs.next()) {
+                busyRooms = rs.getInt("busy");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        int freeRooms = totalRooms - busyRooms;
+
+        ObservableList<PieChart.Data> pieChartData =
+                FXCollections.observableArrayList(
+                        new PieChart.Data("Занятые", busyRooms),
+                        new PieChart.Data("Свободные", freeRooms)
+                );
+
+        PieChart chart = new PieChart(pieChartData);
+        chart.setTitle("Соотношение занятых и свободных комнат");
+        chart.setLegendVisible(true);
+        chart.setLabelsVisible(true);
+
+        Stage stage = new Stage();
+        stage.setTitle("Посещения");
+        stage.initModality(Modality.APPLICATION_MODAL); // модальное окно
+        stage.setScene(new Scene(new StackPane(chart), 400, 300));
+        stage.showAndWait();
+    }
+    @FXML  private void onTopClientsClick(ActionEvent actionEvent) {
+        StringBuilder info = new StringBuilder("Топ клиентов:\n\n");
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(
+                     "select c.\"Surname\", c.\"Name\", count(s.\"Id_stay\") as visits " +
+                             "from \"Cleint\" c " +
+                             "join \"Stay\" s on c.\"Id_client\" = s.\"Id_client\" " +
+                             "group by c.\"Surname\", c.\"Name\" " +
+                             "order by visits desc " +
+                             "limit 10"
+             )) {
+            ResultSet rs = ps.executeQuery();
+
+            int rank = 1;
+            while (rs.next()) {
+                String surname = rs.getString("Surname");
+                String name = rs.getString("Name");
+                int visits = rs.getInt("visits");
+
+                info.append(rank).append(") ")
+                        .append(surname).append(" ").append(name)
+                        .append(" — ").append(visits).append(" посещений\n");
+                rank++;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Ошибка загрузки топа клиентов: " + e.getMessage()).showAndWait();
+            return;
+        }
+
+        new Alert(Alert.AlertType.INFORMATION, info.toString()).showAndWait();
+    }
+
 
 
 
@@ -2143,55 +2242,6 @@ public class HostileComplexController {
 
 
 
-    @FXML
-    public void onClearClick(ActionEvent actionEvent) {
-        switch (activeTable) {
-            case CLIENT -> onClientClick(actionEvent);
-            case ORGANIZATION -> onOrganizationClick(actionEvent);
-            case CONTRACT -> onContractClick(actionEvent);
-            case BOOKING -> onBookingClick(actionEvent);
-            case BOOKING_CLIENT -> onBookingClientClick(actionEvent);
-            case BUILDING -> onBuildingClick(actionEvent);
-            case FLOOR -> onFloorClick(actionEvent);
-            case ROOM -> onRoomClick(actionEvent);
-            case STAY -> onStayClick(actionEvent);
-            case STAY_SERVICE -> onStayServiceClick(actionEvent);
-            case SERVICE -> onServiceClick(actionEvent);
-        }
-    }
-    @FXML
-    public void onAddClick(ActionEvent actionEvent) {
-        switch (activeTable) {
-            case CLIENT -> addClient();
-            case ORGANIZATION -> addOrganization();
-            case CONTRACT -> addContract();
-            case BOOKING -> addBooking();
-            case BOOKING_CLIENT -> addBookingClient();
-            case BUILDING -> addBuilding();
-            case FLOOR -> addFloor();
-            case ROOM -> addRoom();
-            case STAY -> addStay();
-            case STAY_SERVICE -> addStayService();
-            case SERVICE -> addService();
-        }
-    }
-    @FXML
-    public void onDeleteClick(ActionEvent actionEvent) {
-        switch (activeTable) {
-            case CLIENT -> deleteClient();
-            case ORGANIZATION -> deleteOrganization();
-            case CONTRACT -> deleteContract();
-            case BOOKING -> deleteBooking();
-            case BOOKING_CLIENT -> deleteBookingClient();
-            case BUILDING -> deleteBuilding();
-            case FLOOR -> deleteFloor();
-            case ROOM -> deleteRoom();
-            case STAY -> deleteStay();
-            case STAY_SERVICE -> deleteStayService();
-            case SERVICE -> deleteService();
-        }
-    }
-
     private void showRoomStatus(RoomDB room) {
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement("select \"Stay\".\"Check_in\", \"Stay\".\"Check_out\"\n" +
@@ -2272,4 +2322,48 @@ public class HostileComplexController {
         }
         new Alert(Alert.AlertType.INFORMATION, info.toString()).showAndWait();
     }
+    private void showStayService(StayDB stay) {
+        StringBuilder info = new StringBuilder("Дополнительные услуги клиента:\n\n");
+        BigDecimal total = BigDecimal.ZERO;
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement("select s.\"Name\", s.\"Price\"::numeric,\n" +
+                     "  ss.\"Quantity\"\n" +
+                     "from \"Stay_service\" ss\n" +
+                     "join \"Service\" s on s.\"Id_service\" = ss.\"Id_service\"\n" +
+                     "where ss.\"Id_stay\" = ?")) {
+            ps.setInt(1, stay.getIdStay());
+            ResultSet rs = ps.executeQuery();
+
+            boolean hasRecords = false;
+            while (rs.next()) {
+                hasRecords = true;
+                String serviceName = rs.getString("Name");
+                BigDecimal price = rs.getBigDecimal("Price");
+                int quantity = rs.getInt("Quantity");
+
+                BigDecimal subtotal = price.multiply(BigDecimal.valueOf(quantity));
+                total = total.add(subtotal);
+
+                info.append("- ").append(serviceName)
+                        .append(" (").append(quantity).append(" шт.)")
+                        .append(" → ").append(subtotal).append("₽")
+                        .append("\n");
+            }
+
+            if (!hasRecords) {
+                info.append("Клиент не пользовался дополнительными услугами.");
+            } else {
+                info.append("\nОбщая сумма: ").append(total).append("₽");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Ошибка загрузки услуг: " + e.getMessage()).showAndWait();
+            return;
+        }
+
+        new Alert(Alert.AlertType.INFORMATION, info.toString()).showAndWait();
+    }
+
 }

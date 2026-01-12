@@ -15,7 +15,7 @@ public class HostileComplexApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(HostileComplexApplication.class.getResource("hostile-complex-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 1500, 700);
+        Scene scene = new Scene(fxmlLoader.load(), 1300, 700);
         stage.setTitle("Hostile Complex");
 
         stage.setScene(scene);

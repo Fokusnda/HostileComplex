@@ -8,30 +8,26 @@
             fx:controller="com.example.hostilecomplex.HostileComplexController">
 
     <center>
-        <SplitPane dividerPositions="0.35">
+        <SplitPane dividerPositions="0.15">
             <items>
-                <HBox spacing="5">
-                    <VBox spacing="10" style="-fx-padding: 10;" prefWidth="200">
-                        <children>
-
-                        </children>
-                    </VBox>
-                    <VBox spacing="10" style="-fx-padding: 10;" prefWidth="200">
-                        <children>
-                            <Button text="Клиенты" prefWidth="160" onAction="#onClientClick"/>
-                            <Button text="Организации" prefWidth="160" onAction="#onOrganizationClick"/>
-                            <Button text="Контракты" prefWidth="160" onAction="#onContractClick"/>
-                            <Button text="Бронирования" prefWidth="160" onAction="#onBookingClick"/>
-                            <Button text="Бронь-Клиенты" prefWidth="160" onAction="#onBookingClientClick"/>
-                            <Button text="Здания" prefWidth="160" onAction="#onBuildingClick"/>
-                            <Button text="Этажи" prefWidth="160" onAction="#onFloorClick"/>
-                            <Button text="Комнаты" prefWidth="160" onAction="#onRoomClick"/>
-                            <Button text="Занятые комнаты" prefWidth="160" onAction="#onStayClick"/>
-                            <Button text="Услуги в комнатах" prefWidth="160" onAction="#onStayServiceClick"/>
-                            <Button text="Доп. услуги" prefWidth="160" onAction="#onServiceClick"/>
-                        </children>
-                    </VBox>
-                </HBox>
+                <VBox alignment="TOP_CENTER" spacing="10" style="-fx-padding: 10;" prefWidth="200">
+                    <children>
+                        <Button text="Клиенты" prefWidth="160" onAction="#onClientClick"/>
+                        <Button text="Организации" prefWidth="160" onAction="#onOrganizationClick"/>
+                        <Button text="Контракты" prefWidth="160" onAction="#onContractClick"/>
+                        <Button text="Бронирования" prefWidth="160" onAction="#onBookingClick"/>
+                        <Button text="Бронь-Клиенты" prefWidth="160" onAction="#onBookingClientClick"/>
+                        <Button text="Здания" prefWidth="160" onAction="#onBuildingClick"/>
+                        <Button text="Этажи" prefWidth="160" onAction="#onFloorClick"/>
+                        <Button text="Комнаты" prefWidth="160" onAction="#onRoomClick"/>
+                        <Button text="Занятые комнаты" prefWidth="160" onAction="#onStayClick"/>
+                        <Button text="Услуги в комнатах" prefWidth="160" onAction="#onStayServiceClick"/>
+                        <Button text="Доп. услуги" prefWidth="160" onAction="#onServiceClick"/>
+                        <Region prefHeight="30"/>
+                        <Button text="Топ клиентов" prefWidth="160" onAction="#onTopClientsClick"/>
+                        <Button text="Посещения" prefWidth="160" onAction="#onVisitsClick"/>
+                    </children>
+                </VBox>
 
                 <VBox spacing="5" >
                     <children>
